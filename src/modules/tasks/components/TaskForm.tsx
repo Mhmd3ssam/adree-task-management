@@ -1,8 +1,8 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 import { useSelector, useDispatch } from "react-redux"
 import type { RootState, AppDispatch } from "../../../store"
 import { addTask, updateTask } from "../../../store/slices/tasksSlice"
@@ -99,24 +99,57 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
     onClose()
   }
 
+  const formVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0,
+      x: -20
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.3 }
+    }
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
+    <motion.form 
+      initial="hidden"
+      animate="visible"
+      variants={formVariants}
+      onSubmit={handleSubmit} 
+      className="space-y-4">
+      <motion.div variants={itemVariants}>
         <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Title</label>
         <input
           type="text"
           name="title"
           value={formData.title}
           onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-lg bg-[var(--background)] text-[var(--text-primary)] ${
-            errors.title ? "border-[var(--danger)]" : "border-[var(--border)]"
+          className={`w-full px-4 py-3 border rounded-xl bg-[var(--background)] text-[var(--text-primary)] transition-all duration-200 focus:ring-2 focus:ring-primary/20 ${
+            errors.title ? "border-[var(--danger)]" : "border-[var(--border)] hover:border-[var(--primary)]"
           }`}
           placeholder="Enter task title"
         />
         {errors.title && <p className="text-[var(--danger)] text-sm mt-1">{errors.title}</p>}
-      </div>
+      </motion.div>
 
-      <div>
+      <motion.div variants={itemVariants}>
         <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Description</label>
         <textarea
           name="description"
@@ -129,10 +162,10 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
           placeholder="Enter task description"
         />
         {errors.description && <p className="text-[var(--danger)] text-sm mt-1">{errors.description}</p>}
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
+      <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-4" variants={itemVariants}>
+        <motion.div variants={itemVariants}>
           <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Assigned To</label>
           <input
             type="text"
@@ -145,9 +178,9 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
             placeholder="Team member name"
           />
           {errors.assignedTo && <p className="text-[var(--danger)] text-sm mt-1">{errors.assignedTo}</p>}
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div variants={itemVariants}>
           <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Due Date</label>
           <input
             type="date"
@@ -159,11 +192,11 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
             }`}
           />
           {errors.dueDate && <p className="text-[var(--danger)] text-sm mt-1">{errors.dueDate}</p>}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
+      <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-4" variants={itemVariants}>
+        <motion.div variants={itemVariants}>
           <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Estimated Hours</label>
           <input
             type="number"
@@ -176,9 +209,9 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
             }`}
           />
           {errors.estimatedHours && <p className="text-[var(--danger)] text-sm mt-1">{errors.estimatedHours}</p>}
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div variants={itemVariants}>
           <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Category</label>
           <select
             name="category"
@@ -191,10 +224,10 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
             <option value="UI">UI</option>
             <option value="Db">Db</option>
           </select>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div>
+      <motion.div variants={itemVariants}>
         <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Status</label>
         <select
           name="status"
@@ -206,16 +239,22 @@ export default function TaskForm({ taskId, onClose, onShowToast }: TaskFormProps
           <option value="Active">Active</option>
           <option value="Closed">Closed</option>
         </select>
-      </div>
+      </motion.div>
 
-      <div className="flex gap-3 pt-4">
+      <motion.div 
+        className="flex gap-3 pt-4" 
+        variants={itemVariants}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
         <Button type="submit" variant="primary">
           {taskId ? "Update Task" : "Create Task"}
         </Button>
         <Button type="button" variant="secondary" onClick={onClose}>
           Cancel
         </Button>
-      </div>
-    </form>
+      </motion.div>
+    </motion.form>
   )
 }
