@@ -1,0 +1,61 @@
+import type { Task } from "../types"
+
+export function generateMockTasks(): Task[] {
+  return [
+    {
+      id: "1",
+      title: "Setup project structure",
+      description: "Initialize React project with Redux and routing",
+      assignedTo: "John Doe",
+      dueDate: "2024-01-15",
+      estimatedHours: 8,
+      category: "Dev",
+      status: "Active",
+      createdAt: "2024-01-01",
+    },
+    {
+      id: "2",
+      title: "Create dashboard components",
+      description: "Build reusable dashboard components",
+      assignedTo: "Jane Smith",
+      dueDate: "2024-01-20",
+      estimatedHours: 12,
+      category: "UI",
+      status: "Active",
+      createdAt: "2024-01-02",
+    },
+    {
+      id: "3",
+      title: "API integration",
+      description: "Integrate backend API endpoints",
+      assignedTo: "Mike Johnson",
+      dueDate: "2024-01-25",
+      estimatedHours: 16,
+      category: "Dev",
+      status: "New",
+      createdAt: "2024-01-03",
+    },
+    {
+      id: "4",
+      title: "Unit testing",
+      description: "Write unit tests for components",
+      assignedTo: "Sarah Williams",
+      dueDate: "2024-01-30",
+      estimatedHours: 10,
+      category: "Test",
+      status: "New",
+      createdAt: "2024-01-04",
+    },
+    {
+      id: "5",
+      title: "Database optimization",
+      description: "Optimize database queries",
+      assignedTo: "Tom Brown",
+      dueDate: "2024-02-05",
+      estimatedHours: 14,
+      category: "Db",
+      status: "Closed",
+      createdAt: "2024-01-05",
+    },
+  ]
+}
